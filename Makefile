@@ -16,4 +16,4 @@ out/Mandelbrot.jar: out/parcs.jar src/Mandelbrot.java
 build: out/MandelbrotSolver.jar out/Mandelbrot.jar
 
 run: out/MandelbrotSolver.jar out/Mandelbrot.jar
-	@cd out && java -cp 'parcs.jar:MandelbrotSolver.jar' MandelbrotSolver
+	@cd out && java -cp 'parcs.jar:MandelbrotSolver.jar:Mandelbrot.jar' MandelbrotSolver
