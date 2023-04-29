@@ -1,11 +1,11 @@
 all: build run
 
 clean:
-	rm -f out/PiDigits.jar
+	rm -rf out/*
 
 out/PiDigits.jar: out/parcs.jar src/PiDigits.java
 	@javac -cp out/parcs.jar src/PiDigits.java
-	@jar cfe out/PiDigits.jar -C src PiDigits.class -C src
+	@cd src && jar cvfe ../out/PiDigits.jar PiDigits ./*.class
 
 build: out/PiDigits.jar
 
