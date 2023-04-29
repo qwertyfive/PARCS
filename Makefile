@@ -9,7 +9,7 @@ out/MandelbrotParcs.jar: src/MandelbrotParcs.java
 	@rm -f src/MandelbrotParcs.class
 
 out/MandelbrotWorker.jar: src/MandelbrotWorker.java
-	@javac -cp out/parcs.jar out/MandelbrotParcs.jar src/MandelbrotWorker.java
+	@javac -cp out/parcs.jar src/MandelbrotWorker.java
 	@jar cf out/MandelbrotWorker.jar -C src .
 	@rm -f src/MandelbrotWorker.class
 
