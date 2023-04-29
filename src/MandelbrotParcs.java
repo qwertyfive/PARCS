@@ -11,7 +11,7 @@ public class MandelbrotParcs implements AM {
     public static final int WIDTH = 3000;
     public static final int HEIGHT = 3000;
     public static final int MAX_ITER = 5000;
-    public static final int NUM_WORKERS = 4;
+    public static final int NUM_WORKERS = 2;
 
     public static void main(String[] args) {
         task curtask = new task();
