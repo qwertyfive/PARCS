@@ -6,7 +6,7 @@ clean:
 out/MandelbrotParcs.jar: src/MandelbrotParcs.java
 	@javac -cp out/parcs.jar src/MandelbrotParcs.java
 	@jar cf out/MandelbrotParcs.jar -C src .
-	@rm -f src/MandelbrotParcs.class
+	@rm -f src/MandelbrotParcs.class src/MandelbrotWorker.class
 
 
 build: out/MandelbrotParcs.jar
