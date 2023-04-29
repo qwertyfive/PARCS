@@ -1,24 +1,39 @@
-import parcs.*;
+import parcs.AM;
+import parcs.AMInfo;
+import parcs.channel;
+import parcs.point;
+
+import java.awt.Color;
 
 public class MandelbrotWorker implements AM {
+
+    private final int width;
+    private final int height;
+    private final double zoom;
+    private final int maxIter;
+
+    public MandelbrotWorker(int width, int height, double zoom, int maxIter) {
+        this.width = width;
+        this.height = height;
+        this.zoom = zoom;
+        this.maxIter = maxIter;
+    }
+
     public void run(AMInfo info) {
-        int startY = info.parent.readInt();
-        int endY = info.parent.readInt();
+        int[][] colors = new int[height][width];
 
-        int[][] colors = new int[MandelbrotParcs.HEIGHT][MandelbrotParcs.WIDTH];
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                double zx = x - width / 2;
+                double zy = y - height / 2;
+                zx /= zoom;
+                zy /= zoom;
 
-        for (int y = startY; y < endY; y++) {
-            for (int x = 0; x < MandelbrotParcs.WIDTH; x++) {
-                double zx = x - MandelbrotParcs.WIDTH / 2;
-                double zy = y - MandelbrotParcs.HEIGHT / 2;
-                zx /= MandelbrotParcs.ZOOM;
-                zy /= MandelbrotParcs.ZOOM;
                 double cX = zx;
                 double cY = zy;
-                int iter = MandelbrotParcs.MAX_ITER;
-                double tmp;
-                while (zx * zx +                zy * zy < 4 && iter > 0) {
-                    tmp = zx * zx - zy * zy + cX;
+                int iter = maxIter;
+                while (zx * zx + zy * zy < 4 && iter > 0) {
+                    double tmp = zx * zx - zy * zy + cX;
                     zy = 2.0 * zx * zy + cY;
                     zx = tmp;
                     iter--;
@@ -26,10 +41,6 @@ public class MandelbrotWorker implements AM {
                 colors[y][x] = iter | (iter << 8);
             }
         }
-
-        info.parent.write(startY);
-        info.parent.write(endY);
         info.parent.write(colors);
     }
 }
-
