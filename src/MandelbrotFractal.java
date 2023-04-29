@@ -9,7 +9,7 @@ import parcs.*;
 
 public class MandelbrotFractal implements AM {
 
-    public static final int MAX_ITERATIONS = 3000;
+    public static final int MAX_ITERATIONS = 1000;
 
     public static void main(String[] args) {
         task mainTask = new task();
