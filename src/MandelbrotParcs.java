@@ -30,13 +30,9 @@ public class MandelbrotParcs implements AM {
             if (i == NUM_WORKERS - 1) {
                 endRow = HEIGHT;
             }
-
-            channel c = info.createChannel(); // Використовуйте createChannel() з info
+            channel c = info.createPoint().createChannel(); // Використовуйте createChannel() з info
             channels.add(c);
-
-            info.parent.write(new point(startRow, endRow)); // Використовуйте info.parent.write() з point
-
-            // Використовуйте c.write() замість p.write()
+            info.parent.write(new point(startRow, endRow));
             c.write(startRow);
             c.write(endRow);
         }
