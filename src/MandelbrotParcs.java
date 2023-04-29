@@ -30,12 +30,17 @@ public class MandelbrotParcs implements AM {
             if (i == NUM_WORKERS - 1) {
                 endRow = HEIGHT;
             }
+
             channel c = info.createPoint().createChannel(); // Використовуйте createChannel() з info
             channels.add(c);
-            info.parent.write(new point(startRow, endRow));
+
+            info.parent.write(new point(startRow, endRow)); // Використовуйте info.parent.write() з point
+
+            // Використовуйте c.write() замість p.write()
             c.write(startRow);
             c.write(endRow);
         }
+
         BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         for (int i = 0; i < NUM_WORKERS; i++) {
