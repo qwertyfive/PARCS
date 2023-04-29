@@ -1,21 +1,22 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import parcs.*;
 
-public class MandelbrotSolver implements AM {
+public class MandelbrotFractal implements AM {
+
+    public static final int MAX_ITERATIONS = 1000;
 
     public static void main(String[] args) {
         task mainTask = new task();
 
-        mainTask.addJarFile("MandelbrotSolver.jar");
-        mainTask.addJarFile("Mandelbrot.jar");
+        mainTask.addJarFile("MandelbrotFractal.jar");
 
-        (new MandelbrotSolver()).run(new AMInfo(mainTask, (channel)null));
+        (new MandelbrotFractal()).run(new AMInfo(mainTask, null));
         mainTask.end();
     }
 
@@ -41,7 +42,7 @@ public class MandelbrotSolver implements AM {
             channels.add(newChannel);
             points.add(newPoint);
 
-            newPoint.execute("Mandelbrot");
+            newPoint.execute("MandelbrotFractal");
             newChannel.write(xStart);
             newChannel.write(xEnd);
             newChannel.write(yStart);
@@ -58,7 +59,7 @@ public class MandelbrotSolver implements AM {
                 String[] pixels = rows[y].trim().split(" ");
                 for (int x = 0; x < pixels.length; x++) {
                     int iter = Integer.parseInt(pixels[x]);
-                    int color = iter < Mandelbrot.MAX_ITERATIONS ? iter : 0;
+                    int color = iter < MAX_ITERATIONS ? iter : 0;
                     image.setRGB(x, y, new Color(color, color, color).getRGB());
                 }
             }

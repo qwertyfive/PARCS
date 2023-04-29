@@ -1,19 +1,13 @@
-all: run
+all: build run
 
 clean:
-	rm -f out/MandelbrotSolver.jar out/Mandelbrot.jar
+	rm -f out/MandelbrotFractal.jar
 
-out/MandelbrotSolver.jar: out/parcs.jar src/MandelbrotSolver.java
-	@javac -cp out/parcs.jar src/MandelbrotSolver.java
-	@jar cf out/MandelbrotSolver.jar -C src MandelbrotSolver.class -C src
-	@rm -f src/MandelbrotSolver.class
+out/MandelbrotFractal.jar: out/parcs.jar src/MandelbrotFractal.java
+	@javac -cp out/parcs.jar src/MandelbrotFractal.java
+	@jar cf out/MandelbrotFractal.jar -C src MandelbrotFractal.class -C src
 
-out/Mandelbrot.jar: out/parcs.jar src/Mandelbrot.java
-	@javac -cp out/parcs.jar src/Mandelbrot.java
-	@jar cf out/Mandelbrot.jar -C src Mandelbrot.class -C src
-	@rm -f src/Mandelbrot.class
+build: out/MandelbrotFractal.jar
 
-build: out/MandelbrotSolver.jar out/Mandelbrot.jar
-
-run: out/MandelbrotSolver.jar out/Mandelbrot.jar
-	@cd out && java -cp 'parcs.jar:MandelbrotSolver.jar:Mandelbrot.jar' MandelbrotSolver
+run: out/MandelbrotFractal.jar
+	@cd out && java -cp 'parcs.jar:MandelbrotFractal.jar' MandelbrotFractal
