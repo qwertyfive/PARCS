@@ -15,7 +15,7 @@ out/MandelbrotWorker.jar: src/MandelbrotWorker.java
 
 build: out/MandelbrotParcs.jar out/MandelbrotWorker.jar
 
-run: out/MandelbrotParcs.jar out/MandelbrotWorker.jar
+run: build
 	@cd out && java -cp 'parcs.jar:MandelbrotParcs.jar:MandelbrotWorker.jar' MandelbrotParcs
 
 .PHONY: all build run clean
