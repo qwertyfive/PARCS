@@ -53,7 +53,7 @@ public class MandelbrotFractal implements AM {
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         for (int i = 0; i < numWorkers; i++) {
-            String result = channels.get(i).toString();
+            String result = channels.get(i).readObject().toString();
             String[] rows = result.trim().split("\n");
             for (int y = 0; y < rows.length; y++) {
                 String[] pixels = rows[y].trim().split(" ");
