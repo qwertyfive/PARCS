@@ -1,11 +1,11 @@
 all: build run
 
 clean:
-	rm -f out/MandelbrotFractal.jar
+	rm -rf out/*
 
 out/MandelbrotFractal.jar: out/parcs.jar src/MandelbrotFractal.java
 	@javac -cp out/parcs.jar src/MandelbrotFractal.java
-	@jar cf out/MandelbrotFractal.jar -C src MandelbrotFractal.class -C src
+	@jar cfe out/MandelbrotFractal.jar MandelbrotFractal -C src .
 
 build: out/MandelbrotFractal.jar
 
