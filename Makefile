@@ -5,7 +5,7 @@ clean:
 
 out/PiDigits.jar: out/parcs.jar src/PiDigits.java
 	@javac -cp out/parcs.jar src/PiDigits.java
-	@jar cf out/PiDigits.jar -C src PiDigits.class -C src
+	@jar cfe out/PiDigits.jar -C src PiDigits.class -C src
 
 build: out/PiDigits.jar
 
