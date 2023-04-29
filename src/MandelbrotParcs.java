@@ -30,6 +30,7 @@ public class MandelbrotParcs implements AM {
 
             channel c = info.createPoint().createChannel();
             channels.add(c);
+            info.createPoint().execute("MandelbrotParcs");
 
             c.write(startRow);
             c.write(endRow);
