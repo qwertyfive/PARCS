@@ -1,15 +1,15 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.IOException;
 import javax.imageio.ImageIO;
 import parcs.*;
 
 public class MandelbrotFractal implements AM {
 
-    public static final int MAX_ITERATIONS = 1000;
+    public static final int MAX_ITERATIONS = 20;
 
     public static void main(String[] args) {
         task mainTask = new task();
@@ -23,7 +23,7 @@ public class MandelbrotFractal implements AM {
     public void run(AMInfo info) {
         int width = 800;
         int height = 600;
-        int numWorkers = 4;
+        int numWorkers = 2;
 
         int xStart = 0;
         int xEnd = width;
@@ -53,14 +53,15 @@ public class MandelbrotFractal implements AM {
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         for (int i = 0; i < numWorkers; i++) {
-            String result = channels.get(i).readObject().toString();
+            Object resultObj = channels.get(i).readObject();
+            String result = resultObj.toString();
             String[] rows = result.trim().split("\n");
             for (int y = 0; y < rows.length; y++) {
                 String[] pixels = rows[y].trim().split(" ");
                 for (int x = 0; x < pixels.length; x++) {
                     int iter = Integer.parseInt(pixels[x]);
                     int color = iter < MAX_ITERATIONS ? iter : 0;
-                    image.setRGB(x, y, new Color(color, color, color).getRGB());
+                    image.setRGB(x, y + (i * yStep), new Color(color, color, color).getRGB());
                 }
             }
         }
