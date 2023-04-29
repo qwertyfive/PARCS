@@ -17,7 +17,7 @@ public class MandelbrotParcs implements AM {
     public static void main(String[] args) {
         task curtask = new task();
         curtask.addJarFile("MandelbrotParcs.jar");
-        (new MandelbrotParcs()).run(new AMInfo(curtask, (channel) null));
+        (new MandelbrotParcs()).run(new AMInfo(curtask, (channel)null));
         curtask.end();
     }
 
@@ -28,15 +28,23 @@ public class MandelbrotParcs implements AM {
         for (int i = 0; i < NUM_WORKERS; i++) {
             point p = info.createPoint();
             channel c = p.createChannel();
-            p.addExecuteClass(this.getClass());
-            p.start("MandelbrotParcs", "runWorker");
+            p.execute(new AM() {
+                @Override
+                public void run(AMInfo info) {
+                    int workerId = info.channel.readInt();
+                    int numWorkers = info.channel.readInt();
+
+                    int[][] colors = calculateMandelbrot(workerId, numWorkers);
+                    info.channel.writeObject(colors);
+                }
+            });
             c.write(i);
             c.write(NUM_WORKERS);
             workersInfo.add(new AMInfo(p, c));
         }
 
         for (AMInfo workerInfo : workersInfo) {
-            int[][] colors = (int[][]) workerInfo.parent.readObject();
+            int[][] colors = (int[][]) workerInfo.channel.readObject();
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     image.setRGB(x, y, colors[y][x] | (colors[y][x] << 8));
@@ -50,14 +58,6 @@ public class MandelbrotParcs implements AM {
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
-    }
-
-    public void runWorker(AMInfo info) {
-        int workerId = info.parent.readInt();
-        int numWorkers = info.parent.readInt();
-
-        int[][] colors = calculateMandelbrot(workerId, numWorkers);
-        info.parent.writeObject(colors);
     }
 
     private int[][] calculateMandelbrot(int workerId, int numWorkers) {
@@ -77,11 +77,12 @@ public class MandelbrotParcs implements AM {
                     zy = 2.0 * zx * zy + cY;
                     zx = tmp;
                     iter--;
-                    colors[y][x] = iter;
                 }
-            }
 
-            return colors;
+                colors[y][x] = iter;
+            }
         }
+
+        return colors;
     }
 }
