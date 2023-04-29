@@ -9,7 +9,7 @@ out/MandelbrotParcs.jar: src/MandelbrotParcs.java
 	@rm -f src/MandelbrotParcs.class
 
 
-build: out/MandelbrotParcs.jar out/MandelbrotWorker.jar
+build: out/MandelbrotParcs.jar
 
 run: out/MandelbrotParcs.jar out/MandelbrotWorker.jar
 	@cd out && java -cp 'parcs.jar:MandelbrotParcs.jar' MandelbrotParcs
