@@ -9,9 +9,9 @@ import javax.imageio.ImageIO;
 
 public class MandelbrotParcs implements AM {
 
-    public static final int WIDTH = 8000;
-    public static final int HEIGHT = 8000;
-    public static final int MAX_ITER = 10000;
+    public static final int WIDTH = 1920;
+    public static final int HEIGHT = 1080;
+    public static final int MAX_ITER = 2000;
 
     public static void main(String[] args) {
         task curtask = new task();
