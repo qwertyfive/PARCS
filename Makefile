@@ -1,29 +1,21 @@
-JAVAC = javac
-JFLAGS = -cp ".:./parcs.jar"
-JAVA = java
-MAIN_CLASS = MandelbrotParcs
-WORKER_CLASS = MandelbrotWorker
-PARCS_JAR = parcs.jar
-
-all: compile
-
-compile: $(MAIN_CLASS).class $(WORKER_CLASS).class
-
-$(MAIN_CLASS).class: $(MAIN_CLASS).java
-	$(JAVAC) $(JFLAGS) $(MAIN_CLASS).java
-
-$(WORKER_CLASS).class: $(WORKER_CLASS).java
-	$(JAVAC) $(JFLAGS) $(WORKER_CLASS).java
-
-run: compile
-	$(JAVA) -cp ".:./parcs.jar" $(MAIN_CLASS)
+all: run
 
 clean:
-	rm -f *.class
+	rm -f out/MandelbrotParcs.jar out/MandelbrotWorker.jar
 
-parcs_jar:
-	cp /out/parcs.jar .
+out/MandelbrotParcs.jar: out/parcs.jar src/MandelbrotParcs.java
+	@javac -cp out/parcs.jar src/MandelbrotParcs.java
+	@jar cf out/MandelbrotParcs.jar -C src MandelbrotParcs.class -C src
+	@rm -f src/MandelbrotParcs.class
 
-prepare: parcs_jar
+out/MandelbrotWorker.jar: out/parcs.jar src/MandelbrotWorker.java
+	@javac -cp out/parcs.jar src/MandelbrotWorker.java
+	@jar cf out/MandelbrotWorker.jar -C src MandelbrotWorker.class -C src
+	@rm -f src/MandelbrotWorker.class
 
-.PHONY: all compile run clean parcs_jar prepare
+build: out/MandelbrotParcs.jar out/MandelbrotWorker.jar
+
+run: out/MandelbrotParcs.jar out/MandelbrotWorker.jar
+	@cd out && java -cp 'parcs.jar:MandelbrotParcs.jar' MandelbrotParcs
+
+.PHONY: all build run clean
