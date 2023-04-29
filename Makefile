@@ -1,18 +1,19 @@
 all: run
 
 clean:
-	rm -f out/MandelbrotParcs.jar
+	rm -f out/MandelbrotSolver.jar out/Mandelbrot.jar
 
-out/MandelbrotParcs.jar: src/MandelbrotParcs.java
-	@javac -cp out/parcs.jar src/MandelbrotParcs.java
-	@jar cf out/MandelbrotParcs.jar -C src .
-	@rm -f src/MandelbrotParcs.class
+out/MandelbrotSolver.jar: out/parcs.jar src/MandelbrotSolver.java
+	@javac -cp out/parcs.jar src/MandelbrotSolver.java
+	@jar cf out/MandelbrotSolver.jar -C src MandelbrotSolver.class -C src
+	@rm -f src/MandelbrotSolver.class
 
+out/Mandelbrot.jar: out/parcs.jar src/Mandelbrot.java
+	@javac -cp out/parcs.jar src/Mandelbrot.java
+	@jar cf out/Mandelbrot.jar -C src Mandelbrot.class -C src
+	@rm -f src/Mandelbrot.class
 
-build: out/MandelbrotParcs.jar
+build: out/MandelbrotSolver.jar out/Mandelbrot.jar
 
-run: out/MandelbrotParcs.jar
-	@cd out && java -cp 'parcs.jar:MandelbrotParcs.jar' MandelbrotParcs
-
-
-.PHONY: all build run clean
+run: out/MandelbrotSolver.jar out/Mandelbrot.jar
+	@cd out && java -cp 'parcs.jar:MandelbrotSolver.jar' MandelbrotSolver
