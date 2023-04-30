@@ -27,9 +27,15 @@ public class Solver implements AM {
 
     public void run(AMInfo info) {
         long range = 1000000;
-        int workers = 4;
-        long result = solve(info, range, workers);
+        int workers = 1;
+        long tStart = System.nanoTime();
+
+        long res = solve(info, n, a, b);
+
+        long tEnd = System.nanoTime();
+
         System.out.println("Count of Armstrong Numbers in range [1, " + range + "] = " + result);
+        System.out.println("time = " + ((tEnd - tStart) / 1000000) + "ms");
     }
 
     static public long solve(AMInfo info, long range, int workers) {
