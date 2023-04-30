@@ -23,6 +23,7 @@ public class Count implements AM {
         }
 
         info.parent.write(result);
+        info.parent.write(startRow);
     }
 
     private long mandelbrot(double x, double y) {

@@ -81,6 +81,7 @@ public class Solver implements AM {
         long[][] results = new long[HEIGHT][WIDTH];
         for (int index = 0; index < n; ++index) {
             long[][] threadResult = (long[][]) channels.get(index).readObject();
+            long startRow = channels.get(index).readLong();
             for (int i = 0; i < threadResult.length; i++) {
                 for (int j = 0; j < threadResult[i].length; j++) {
                     results[(int)(index * length) + i][j] = threadResult[i][j];
