@@ -32,33 +32,15 @@ public class Solver implements AM
 
     public void run(AMInfo info)
     {
-        long n, a, b;
-
-        try
-        {
-            BufferedReader in = new BufferedReader(new FileReader(info.curtask.findFile("input.txt")));
-
-            n = new Long(in.readLine()).longValue();
-            a = new Long(in.readLine()).longValue();
-            b = new Long(in.readLine()).longValue();
-        }
-        catch (IOException e)
-        {
-            System.out.print("Error while reading input\n");
-
-            e.printStackTrace();
-
-            return;
-        }
-
-        System.out.print("class Solver method run read data from file\na");
-
-        long tStart = System.nanoTime();
+        long n = 4;
 
         double xMin = -2.0;
         double xMax = 1.0;
         double yMin = -1.5;
         double yMax = 1.5;
+
+        long tStart = System.nanoTime();
+
         long[][] res = solve(info, n, xMin, xMax, yMin, yMax);
 
         long tEnd = System.nanoTime();
