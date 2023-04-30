@@ -26,21 +26,21 @@ public class Solver implements AM {
     }
 
     public void run(AMInfo info) {
-        int range = 1000000000;
+        long range = 1000000000;
         int workers = 8;
-        int result = solve(info, range, workers);
-        System.out.println("Sum of numbers divisible by 3 or 5 in range [1, " + range + "] = " + result);
+        long result = solve(info, range, workers);
+        System.out.println("Count of Armstrong Numbers in range [1, " + range + "] = " + result);
     }
 
-    static public int solve(AMInfo info, int range, int workers) {
+    static public long solve(AMInfo info, long range, int workers) {
         List<point> points = new ArrayList<>();
         List<channel> channels = new ArrayList<>();
 
-        int step = range / workers;
+        long step = range / workers;
 
-        for (int index = 0; index < workers; ++index) {
-            int currentStart = index * step + 1;
-            int currentEnd = (index + 1) * step;
+        for (long index = 0; index < workers; ++index) {
+            long currentStart = index * step + 1;
+            long currentEnd = (index + 1) * step;
 
             point newPoint = info.createPoint();
             channel newChannel = newPoint.createChannel();
@@ -53,9 +53,9 @@ public class Solver implements AM {
             newChannel.write(currentEnd);
         }
 
-        int result = 0;
+        long result = 0;
         for (int index = 0; index < workers; ++index) {
-            int partialResult = channels.get(index).readInt();
+            long partialResult = channels.get(index).readLong();
             result += partialResult;
         }
 

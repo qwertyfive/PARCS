@@ -2,19 +2,35 @@ import parcs.AM;
 import parcs.AMInfo;
 
 public class Count implements AM {
-
     public void run(AMInfo info) {
-        int start = info.parent.readInt();
-        int end = info.parent.readInt();
-        System.out.println("Worker started for range: " + start + " - " + end);
+        long start, end;
 
-        int sum = 0;
-        for (int i = start; i <= end; i++) {
-            if (i % 3 == 0 || i % 5 == 0) {
-                sum += i;
+        start = info.parent.readLong();
+        end = info.parent.readLong();
+
+        System.out.println("Worker started");
+
+        long count = 0;
+        for (long num = start; num <= end; num++) {
+            if (isArmstrong(num)) {
+                count++;
             }
         }
 
-        info.parent.write(sum);
+        info.parent.write(count);
+    }
+
+    private boolean isArmstrong(long num) {
+        long sum = 0;
+        long temp = num;
+        int numberOfDigits = String.valueOf(num).length();
+
+        while (temp != 0) {
+            long digit = temp % 10;
+            sum += Math.pow(digit, numberOfDigits);
+            temp /= 10;
+        }
+
+        return sum == num;
     }
 }
