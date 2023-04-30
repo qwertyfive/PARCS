@@ -26,7 +26,7 @@ public class Solver implements AM {
     }
 
     public void run(AMInfo info) {
-        long range = 1000000;
+        long range = 25000000;
         int workers = 6;
         long tStart = System.nanoTime();
 
@@ -63,6 +63,7 @@ public class Solver implements AM {
         long result = 0;
         for (int index = 0; index < workers; ++index) {
             long partialResult = channels.get(index).readLong();
+            System.out.println("Temp res:" + partialResult);
             result += partialResult;
         }
 
