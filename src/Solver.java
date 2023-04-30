@@ -26,7 +26,7 @@ public class Solver implements AM {
     }
 
     public void run(AMInfo info) {
-        long range = 1000000;
+        long range = 25000000;
         int workers = 6;
         long tStart = System.nanoTime();
 
@@ -54,7 +54,7 @@ public class Solver implements AM {
             channels.add(newChannel);
             points.add(newPoint);
 
-            System.out.println("Worker " + index + ": " + currentStart + " to " + currentEnd);
+            //System.out.println("Worker " + index + ": " + currentStart + " to " + currentEnd);
             newPoint.execute("Count");
             newChannel.write(currentStart);
             newChannel.write(currentEnd);
