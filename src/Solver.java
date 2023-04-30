@@ -1,21 +1,19 @@
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.math.*;
-import java.util.*;
-import javax.imageio.ImageIO;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
-import parcs.*;
+import parcs.AM;
+import parcs.AMInfo;
+import parcs.channel;
+import parcs.point;
+import parcs.task;
+
 public class Solver implements AM {
-
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 800;
 
     public static void main(String[] args) {
         System.out.print("class Solver start method main\n");
 
         task mainTask = new task();
-
         mainTask.addJarFile("Solver.jar");
         mainTask.addJarFile("Count.jar");
 
@@ -25,41 +23,24 @@ public class Solver implements AM {
 
         System.out.print("class Solver method main finish work\n");
 
-
         mainTask.end();
     }
 
     public void run(AMInfo info) {
-        long n = 4;
-
-        double xMin = -2.0;
-        double xMax = 1.0;
-        double yMin = -1.5;
-        double yMax = 1.5;
-
-        long tStart = System.nanoTime();
-
-        long[][] res = solve(info, n, xMin, xMax, yMin, yMax);
-
-        long tEnd = System.nanoTime();
-
-        saveImage(res, "mandelbrot.png");
-
-        System.out.println("time = " + ((tEnd - tStart) / 1000000) + "ms");
+        int n = 20;
+        int workers = 4;
+        BigInteger result = solve(info, n, workers);
+        System.out.println("Fibonacci(" + n + ") = " + result);
     }
 
-    static public long[][] solve(AMInfo info, long n, double xMin, double xMax, double yMin, double yMax) {
+    static public BigInteger solve(AMInfo info, int n, int workers) {
         List<point> points = new ArrayList<>();
         List<channel> channels = new ArrayList<>();
 
-        long remainder = (HEIGHT - 0) % n;
-        long length = (HEIGHT - 0) / n;
+        int step = n / workers;
 
-        for (int index = 0; index < n; ++index) {
-            long currentStart = index * length;
-            long currentEnd = (index + 1) * length + ((n - index - 1 < remainder) ? 1 : 0);
-
-            System.out.println(index + " worker range: " + currentStart + " - " + currentEnd);
+        for (int index = 0; index < workers; ++index) {
+            int currentElement = (index + 1) * step;
 
             point newPoint = info.createPoint();
             channel newChannel = newPoint.createChannel();
@@ -68,46 +49,15 @@ public class Solver implements AM {
             points.add(newPoint);
 
             newPoint.execute("Count");
-            newChannel.write(currentStart);
-            newChannel.write(currentEnd);
-            newChannel.write(xMin);
-            newChannel.write(xMax);
-            newChannel.write(yMin);
-            newChannel.write(yMax);
-            newChannel.write(WIDTH);
-            newChannel.write(HEIGHT);
+            newChannel.write(currentElement);
         }
 
-        long[][] results = new long[HEIGHT][WIDTH];
-        for (int index = 0; index < n; ++index) {
-            long[][] threadResult = (long[][]) channels.get(index).readObject();
-            long startRow = channels.get(index).readLong();
-            for (int i = 0; i < threadResult.length; i++) {
-                for (int j = 0; j < threadResult[i].length; j++) {
-                    results[(int)(index * length) + i][j] = threadResult[i][j];
-                }
-            }
+        BigInteger result = BigInteger.ZERO;
+        for (int index = 0; index < workers; ++index) {
+            BigInteger partialResult = (BigInteger) channels.get(index).readObject();
+            result = result.add(partialResult);
         }
 
-        return results;
-    }
-
-
-    public static void saveImage(long[][] data, String fileName) {
-        BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                float hue = (float) data[y][x] / 50.0f;
-                Color color = Color.getHSBColor(hue, 1.0f, 1.0f);
-                image.setRGB(x, y, color.getRGB());
-            }
-        }
-
-        try {
-            ImageIO.write(image, "PNG", new File(fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return result;
     }
 }
