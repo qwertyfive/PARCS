@@ -30,11 +30,11 @@ public class Solver implements AM {
         int workers = 1;
         long tStart = System.nanoTime();
 
-        long res = solve(info, n, a, b);
+        long res = solve(info, range, workers);
 
         long tEnd = System.nanoTime();
 
-        System.out.println("Count of Armstrong Numbers in range [1, " + range + "] = " + result);
+        System.out.println("Count of Armstrong Numbers in range [1, " + range + "] = " + res);
         System.out.println("time = " + ((tEnd - tStart) / 1000000) + "ms");
     }
 
