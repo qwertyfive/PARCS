@@ -80,11 +80,7 @@ public class Solver implements AM {
 
         long[][] results = new long[HEIGHT][WIDTH];
         for (int index = 0; index < n; ++index) {
-            List<List<Long>> tmpList = (List<List<Long>>) channels.get(index).readObject();
-            long[][] threadResult = tmpList.stream()
-                    .map(l -> l.stream().mapToLong(Long::longValue).toArray())
-                    .toArray(long[][]::new);
-
+            long[][] threadResult = (long[][]) channels.get(index).readObject();
             for (int i = 0; i < threadResult.length; i++) {
                 for (int j = 0; j < threadResult[i].length; j++) {
                     results[(int)(index * length) + i][j] = threadResult[i][j];
