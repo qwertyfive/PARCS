@@ -1,13 +1,19 @@
-all: build run
+all: run
 
 clean:
-	rm -rf out/*
+	rm -f out/Solver.jar out/Count.jar
 
-out/PiDigits.jar: out/parcs.jar src/PiDigits.java
-	@javac -cp out/parcs.jar src/PiDigits.java
-	@cd src && jar cvfe ../out/PiDigits.jar PiDigits ./*.class
+out/Solver.jar: out/parcs.jar src/Solver.java
+	@javac -cp out/parcs.jar src/Solver.java
+	@jar cf out/Solver.jar -C src Solver.class -C src
+	@rm -f src/Solver.class
 
-build: out/PiDigits.jar
+out/Count.jar: out/parcs.jar src/Count.java
+	@javac -cp out/parcs.jar src/Count.java
+	@jar cf out/Count.jar -C src Count.class -C src
+	@rm -f src/Count.class
 
-run: out/PiDigits.jar
-	@cd out && java -cp 'parcs.jar:PiDigits.jar' PiDigits
+build: out/Solver.jar out/Count.jar
+
+run: out/Solver.jar out/Count.jar
+	@cd out && java -cp 'parcs.jar:Solver.jar' Solver
