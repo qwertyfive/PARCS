@@ -26,8 +26,8 @@ public class Solver implements AM {
     }
 
     public void run(AMInfo info) {
-        int range = 1000;
-        int workers = 4;
+        int range = 1000000000;
+        int workers = 8;
         int result = solve(info, range, workers);
         System.out.println("Sum of numbers divisible by 3 or 5 in range [1, " + range + "] = " + result);
     }
