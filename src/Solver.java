@@ -27,7 +27,7 @@ public class Solver implements AM {
 
     public void run(AMInfo info) {
         long range = 1000000000;
-        int workers = 1;
+        int workers = 2;
         long tStart = System.nanoTime();
 
         long res = solve(info, range, workers);
