@@ -41,7 +41,7 @@ public class Solver implements AM
 
         long tStart = System.nanoTime();
 
-        long[][] res = solve(info, n, xMin, xMax, yMin, yMax);
+        int[][] res = solve(info, n, xMin, xMax, yMin, yMax);
 
         long tEnd = System.nanoTime();
 
@@ -50,7 +50,7 @@ public class Solver implements AM
         System.out.println("time = " + ((tEnd - tStart) / 1000000) + "ms");
     }
 
-    static public long[][] solve(AMInfo info, long n, double xMin, double xMax, double yMin, double yMax) {
+    static public int[][] solve(AMInfo info, long n, double xMin, double xMax, double yMin, double yMax) {
         List<point> points = new ArrayList<>();
         List<channel> channels = new ArrayList<>();
 
@@ -80,7 +80,7 @@ public class Solver implements AM
             newChannel.write(HEIGHT);
         }
 
-        long[][] results = new long[HEIGHT][WIDTH];
+        int[][] results = new int[HEIGHT][WIDTH];
         for (int index = 0; index < n; ++index) {
             long[][] threadResult = (long[][]) channels.get(index).readObject();
             System.arraycopy(threadResult, 0, results, index * WIDTH, threadResult.length);
@@ -89,7 +89,7 @@ public class Solver implements AM
         return results;
     }
 
-    public static void saveImage(long[][] data, String fileName) {
+    public static void saveImage(int[][] data, String fileName) {
         BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         for (int y = 0; y < HEIGHT; y++) {

@@ -14,7 +14,7 @@ public class Count implements AM {
 
         System.out.println("Worker started");
 
-        long[][] result = new long[(int)(endRow - startRow)][width];
+        int[][] result = new int[(int)(endRow - startRow)][width];
         for (int row = (int)startRow; row < endRow; row++) {
             for (int col = 0; col < width; col++) {
                 double x = xMin + (xMax - xMin) * col / width;
@@ -27,7 +27,7 @@ public class Count implements AM {
         info.parent.write(startRow);
     }
 
-    private long mandelbrot(double x, double y) {
+    private int mandelbrot(double x, double y) {
         double real = 0.0;
         double imaginary = 0.0;
         int iteration = 0;
