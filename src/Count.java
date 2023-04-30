@@ -10,6 +10,7 @@ public class Count implements AM {
 
         System.out.println("Worker started");
 
+        System.out.println("Count of Armstrong Numbers in range [" + start +", " + end + "]");
         long count = 0;
         for (long num = start; num <= end; num++) {
             if (isArmstrong(num)) {
