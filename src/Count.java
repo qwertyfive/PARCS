@@ -5,7 +5,6 @@ public class Count implements AM {
 
         startRow = info.parent.readLong();
         endRow = info.parent.readLong();
-        int index = info.parent.readInt();
         double xMin = info.parent.readDouble();
         double xMax = info.parent.readDouble();
         double yMin = info.parent.readDouble();

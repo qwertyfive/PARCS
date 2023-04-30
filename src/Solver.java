@@ -72,7 +72,6 @@ public class Solver implements AM
             newPoint.execute("Count");
             newChannel.write(currentStart);
             newChannel.write(currentEnd);
-            newChannel.write(index);
             newChannel.write(xMin);
             newChannel.write(xMax);
             newChannel.write(yMin);
