@@ -8,7 +8,7 @@ public class Count implements AM {
         start = info.parent.readLong();
         end = info.parent.readLong();
 
-        System.out.println("Worker started" + start + ", " + end);
+        System.out.println("Worker started");
 
         long count = 0;
         for (long num = start; num <= end; num++) {

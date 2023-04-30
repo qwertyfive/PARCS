@@ -48,6 +48,7 @@ public class Solver implements AM {
             channels.add(newChannel);
             points.add(newPoint);
 
+            System.out.println("Worker" + index + "started: " + currentStart + ", " + currentEnd);
             newPoint.execute("Count");
             newChannel.write(currentStart);
             newChannel.write(currentEnd);
