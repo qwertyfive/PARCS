@@ -80,7 +80,11 @@ public class Solver implements AM {
 
         long[][] results = new long[HEIGHT][WIDTH];
         for (int index = 0; index < n; ++index) {
-            long[][] threadResult = (long[][]) channels.get(index).readObject();
+            List<List<Long>> tmpList = (List<List<Long>>) channels.get(index).readObject();
+            long[][] threadResult = tmpList.stream()
+                    .map(l -> l.stream().mapToLong(Long::longValue).toArray())
+                    .toArray(long[][]::new);
+
             for (int i = 0; i < threadResult.length; i++) {
                 for (int j = 0; j < threadResult[i].length; j++) {
                     results[(int)(index * length) + i][j] = threadResult[i][j];
@@ -90,6 +94,7 @@ public class Solver implements AM {
 
         return results;
     }
+
 
     public static void saveImage(long[][] data, String fileName) {
         BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
