@@ -27,7 +27,7 @@ public class Solver implements AM {
 
     public void run(AMInfo info) {
         long range = 1000000;
-        int workers = 2;
+        int workers = 4;
         long result = solve(info, range, workers);
         System.out.println("Count of Armstrong Numbers in range [1, " + range + "] = " + result);
     }
