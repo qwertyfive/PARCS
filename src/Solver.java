@@ -63,7 +63,6 @@ public class Solver implements AM {
         long result = 0;
         for (int index = 0; index < workers; ++index) {
             long partialResult = channels.get(index).readLong();
-            System.out.println("Temp res:" + partialResult);
             result += partialResult;
         }
 
