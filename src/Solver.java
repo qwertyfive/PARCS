@@ -1,4 +1,3 @@
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,20 +26,21 @@ public class Solver implements AM {
     }
 
     public void run(AMInfo info) {
-        int n = 20;
+        int range = 1000;
         int workers = 4;
-        BigInteger result = solve(info, n, workers);
-        System.out.println("Fibonacci(" + n + ") = " + result);
+        int result = solve(info, range, workers);
+        System.out.println("Sum of numbers divisible by 3 or 5 in range [1, " + range + "] = " + result);
     }
 
-    static public BigInteger solve(AMInfo info, int n, int workers) {
+    static public int solve(AMInfo info, int range, int workers) {
         List<point> points = new ArrayList<>();
         List<channel> channels = new ArrayList<>();
 
-        int step = n / workers;
+        int step = range / workers;
 
         for (int index = 0; index < workers; ++index) {
-            int currentElement = (index + 1) * step;
+            int currentStart = index * step + 1;
+            int currentEnd = (index + 1) * step;
 
             point newPoint = info.createPoint();
             channel newChannel = newPoint.createChannel();
@@ -49,13 +49,14 @@ public class Solver implements AM {
             points.add(newPoint);
 
             newPoint.execute("Count");
-            newChannel.write(currentElement);
+            newChannel.write(currentStart);
+            newChannel.write(currentEnd);
         }
 
-        BigInteger result = BigInteger.ZERO;
+        int result = 0;
         for (int index = 0; index < workers; ++index) {
-            BigInteger partialResult = (BigInteger) channels.get(index).readObject();
-            result = result.add(partialResult);
+            int partialResult = channels.get(index).readInt();
+            result += partialResult;
         }
 
         return result;
