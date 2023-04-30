@@ -83,7 +83,7 @@ public class Solver implements AM
         long[][] results = new long[HEIGHT][WIDTH];
         for (int index = 0; index < n; ++index) {
             long[][] threadResult = (long[][]) channels.get(index).readObject();
-            System.arraycopy(threadResult, 0, results, (int) channels.get(index).readLong(), threadResult.length);
+            System.arraycopy(threadResult, 0, results, index * WIDTH, threadResult.length);
         }
 
         return results;
