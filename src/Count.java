@@ -2,7 +2,6 @@ import parcs.*;
 public class Count implements AM {
     public void run(AMInfo info) {
         long startRow, endRow;
-
         startRow = info.parent.readLong();
         endRow = info.parent.readLong();
         double xMin = info.parent.readDouble();
@@ -14,12 +13,12 @@ public class Count implements AM {
 
         System.out.println("Worker started");
 
-        int[][] result = new int[(int)(endRow - startRow)][width];
-        for (int row = (int)startRow; row < endRow; row++) {
+        long[][] result = new long[(int) (endRow - startRow)][width];
+        for (int row = (int) startRow; row < endRow; row++) {
             for (int col = 0; col < width; col++) {
                 double x = xMin + (xMax - xMin) * col / width;
                 double y = yMin + (yMax - yMin) * row / height;
-                result[row - (int)startRow][col] = mandelbrot(x, y);
+                result[row - (int) startRow][col] = mandelbrot(x, y);
             }
         }
 
@@ -27,7 +26,7 @@ public class Count implements AM {
         info.parent.write(startRow);
     }
 
-    private int mandelbrot(double x, double y) {
+    private long mandelbrot(double x, double y) {
         double real = 0.0;
         double imaginary = 0.0;
         int iteration = 0;

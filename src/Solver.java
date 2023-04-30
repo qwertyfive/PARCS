@@ -6,13 +6,12 @@ import java.util.*;
 import javax.imageio.ImageIO;
 
 import parcs.*;
-public class Solver implements AM
-{
+public class Solver implements AM {
 
     private static final int WIDTH = 800;
     private static final int HEIGHT = 800;
-    public static void main(String[] args)
-    {
+
+    public static void main(String[] args) {
         System.out.print("class Solver start method main\n");
 
         task mainTask = new task();
@@ -22,7 +21,7 @@ public class Solver implements AM
 
         System.out.print("class Solver method main adder jars\n");
 
-        (new Solver()).run(new AMInfo(mainTask, (channel)null));
+        (new Solver()).run(new AMInfo(mainTask, (channel) null));
 
         System.out.print("class Solver method main finish work\n");
 
@@ -30,8 +29,7 @@ public class Solver implements AM
         mainTask.end();
     }
 
-    public void run(AMInfo info)
-    {
+    public void run(AMInfo info) {
         long n = 4;
 
         double xMin = -2.0;
@@ -41,7 +39,7 @@ public class Solver implements AM
 
         long tStart = System.nanoTime();
 
-        int[][] res = solve(info, n, xMin, xMax, yMin, yMax);
+        long[][] res = solve(info, n, xMin, xMax, yMin, yMax);
 
         long tEnd = System.nanoTime();
 
@@ -50,7 +48,7 @@ public class Solver implements AM
         System.out.println("time = " + ((tEnd - tStart) / 1000000) + "ms");
     }
 
-    static public int[][] solve(AMInfo info, long n, double xMin, double xMax, double yMin, double yMax) {
+    static public long[][] solve(AMInfo info, long n, double xMin, double xMax, double yMin, double yMax) {
         List<point> points = new ArrayList<>();
         List<channel> channels = new ArrayList<>();
 
@@ -80,16 +78,16 @@ public class Solver implements AM
             newChannel.write(HEIGHT);
         }
 
-        int[][] results = new int[HEIGHT][WIDTH];
+        long[][] results = new long[HEIGHT][WIDTH];
         for (int index = 0; index < n; ++index) {
             long[][] threadResult = (long[][]) channels.get(index).readObject();
-            System.arraycopy(threadResult, 0, results, index * WIDTH, threadResult.length);
+            System.arraycopy(threadResult, 0, results, index * threadResult.length, threadResult.length);
         }
 
         return results;
     }
 
-    public static void saveImage(int[][] data, String fileName) {
+    public static void saveImage(long[][] data, String fileName) {
         BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         for (int y = 0; y < HEIGHT; y++) {
